@@ -1,0 +1,423 @@
+---UserModel.php---
+<?php
+namespace App\Models;
+use CodeIgniter\Model;
+use App\Models\UserModel;
+
+
+class UserModel extends Model
+{
+    protected $table = 'users';
+    protected $primaryKey = 'id';
+
+    protected $allowedFields = ['first_name', 'last_name', 'contact_no', 'birthday', 'address'];
+
+    public function insertUser($data)
+    {
+        return $this->insert($data);
+    }
+}
+---------------------------
+---UserController.php---
+<?php
+namespace App\Controllers;
+use App\Models\UserModel;
+use CodeIgniter\Controller;
+
+
+class UserController extends Controller
+{ //user list
+    public function index() {
+        $userModel = new UserModel();
+        $data['users'] = $userModel->orderBy('id', 'ASC')->findAll();
+        return view('user_view', $data);
+    }
+    //user form
+    public function create(){
+        return view('add_user');
+      
+}
+    //insert data in database
+    public function store(){
+        $userModel = new UserModel();
+        $data = [
+            'first_name' => $this->request->getVar('first_name'),
+            'last_name' => $this->request->getVar('last_name'),
+            'contact_no' => $this->request->getVar('contact_no'),
+            'birthday' => $this->request->getVar('birthday'),
+            'address' => $this->request->getVar('address'),
+        ];
+        $userModel->insert($data);
+        return $this->response->redirect(site_url('/users-list'));
+    }
+    //view single user
+    public function singleUser($id = null){
+        $userModel = new UserModel();
+        $data['user_obj'] = $userModel->where('id', $id)->first();
+        return view('edit_user', $data);
+    }
+    //update user data
+    public function update(){
+        $userModel = new UserModel();
+        $id = $this->request->getVar('id');
+        $data = [
+            'first_name' => $this->request->getVar('first_name'),
+            'last_name' => $this->request->getVar('last_name'),
+            'contact_no' => $this->request->getVar('contact_no'),
+            'birthday' => $this->request->getVar('birthday'),
+            'address' => $this->request->getVar('address'),
+        ];
+        $userModel->update($id, $data);
+        return $this->response->redirect(site_url('/users-list')); 
+    }
+    //delete user data
+    public function delete($id = null){
+        $userModel = new UserModel();
+        $data['user'] = $userModel->where('id', $id)->delete($id);
+        return $this->response->redirect(site_url('/users-list'));
+    }
+}
+-----------------------------------
+---Routes.php---
+<?php
+namespace Config;
+use CodeIgniter\Router\RouteCollection;
+
+$routes = Services::routes();
+
+if (is_file(SYSTEMPATH . 'Config/Routes.php')){
+    require SYSTEMPATH . 'Config/Routes.php';
+}
+//Routes Setup
+
+$routes->setDefaultNamespace('App\Controllers');
+$routes->setDefaultController('Home');
+$routes->setDefaultMethod('index');
+$routes->setTranslateURIDashes(false);
+$routes->set404Override();
+/**
+ * @var RouteCollection $routes
+ */
+$routes->get('/', 'Home::index');
+$routes->get('users-list', 'UserController::index');
+$routes->get('user-form', 'UserController::create');
+$routes->post('submit-form', 'UserController::store');
+$routes->get('edit-view/(:num)', 'UserController::singleUser/$1');
+$routes->post('update', 'UserController::update');
+$routes->get('delete/(:num)', 'UserController::delete/$1');
+
+
+
+if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')){
+    require APPPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
+}
+
+-----------------------------------
+---edit_user.php---
+<!DOCTYPE html>
+<html>
+<style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+form {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+        </style>
+    <head>
+        <title>Codeigniter 4 CRUD</title>
+</head>
+<body>
+    <div class="container">
+    <p><h1>Codeigniter 4 CRUD Application.</h1></p>
+    <div class="">
+        <div class=""></div>
+        <div class="">
+            <form method="post" id="update_user" name="update_user" action="<?php echo site_url('/update') ?>">
+                <input type="hidden" name="id" id="id" value="<?php echo $user_obj['id']; ?>">
+                <div class="">
+                    <label>First Name</label>
+                    <input type="text" name="first_name" class="" value="<?php echo $user_obj['first_name']; ?>" required>
+            </div>
+                <div class="">
+                    <label>Last Name</label>
+                    <input type="text" name="last_name" class="" value="<?php echo $user_obj['last_name']; ?>" required>
+            </div>
+                <div class="">
+                    <label>Contact Number</label>
+                    <input type="text" name="contact_no" class="" value="<?php echo $user_obj['contact_no']; ?>" required>
+            </div>
+                <div class="">
+                    <label>Date of Birth</label>
+                    <input type="date" name="birthday" class="" value="<?php echo $user_obj['birthday']; ?>" required>
+            </div>
+                <div class="">
+                    <label>Address</label>
+                    <input type="text" name="address" class="" value="<?php echo $user_obj['address']; ?>" required>
+            </div>
+            <div class=""><br/>
+                <button type="submit" class="" >Save</button>
+            </div>
+        </form>
+        </div>
+        <div class=""></div>
+    </div>
+    </div>
+</body>
+</html>
+
+------------------
+---add_user.php---
+<!DOCTYPE html>
+<html>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+form {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"],
+form input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+        </style>
+    <head>
+        <title>Codeigniter 4 CRUD</title>
+</head>
+<body>
+    <div class="container">
+    <p><h1>Codeigniter 4 CRUD Application.</h1></p>
+    <div class="">
+        <div class=""></div>
+        <div class="">
+            <form method="post" id="add_create" action="<?php echo site_url('/submit-form') ?> ">
+                <div class="">
+                    <label>First Name</label>
+                    <input type="text" name="first_name" class="" required>
+            </div>
+                <div class="">
+                    <label>Last Name</label>
+                    <input type="text" name="last_name" class="" required>
+            </div>
+                <div class="">
+                    <label>Contact Number</label>
+                    <input type="text" name="contact_no" class="" required>
+            </div>
+                <div class="">
+                    <label>Date of Birth</label>
+                    <input type="date" name="birthday" class="" required>
+            </div>
+                <div class="">
+                    <label>Address</label>
+                    <input type="text" name="address" class="" required>
+            </div>
+            <div class=""><br/>
+                <button type="submit" class="">Sumbit</button>
+            </div>
+        </form>
+        </div>
+        <div class=""></div>
+    </div>
+    </div>
+</body>
+</html>
+
+-------------------------------
+---user_view.php---
+<!DOCTYPE html>
+<html>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: #333;
+}
+
+a {
+    display: inline-block;
+    margin-right: 10px;
+    text-decoration: none;
+    color: #007bff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+a.edit-link {
+    color: green;
+}
+
+a.delete-link {
+    color: red;
+}
+
+    </style>
+    <head>
+        <title>Codeigniter 4 CRUD</title>
+</head>
+<body>
+    <div class="container">
+    <p><h1>Codeigniter 4 CRUD Application.</h1></p>
+<div class="">
+    <a href="<?php echo site_url('/user-form')?>" class="">Add User</a>
+</div>
+<table class="" id="users-list" border="1">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Contact Number</th>
+            <th>Date of Birth</th>
+            <th>Address</th>
+            <th>Action</th>
+</tr>
+</thead>
+    <tbody>
+        <?php if($users): ?>
+        <?php foreach($users as $user): ?>
+        <tr>
+            <td><?php echo $user['first_name']; ?></td>
+            <td><?php echo $user['last_name']; ?></td>
+            <td><?php echo $user['contact_no']; ?></td>
+            <td><?php echo $user['birthday']; ?></td>
+            <td><?php echo $user['address']; ?></td>
+        <td>
+        <a href="<?php echo base_url('edit-view/'.$user['id']);?>" class="edit-link">Edit</a>
+        <a href="<?php echo base_url('delete/'.$user['id']);?>" class="delete-link">Delete</a>
+</td>
+</tr>
+        <?php endforeach; ?>
+        <?php endif; ?>
+
+
+    </table>
+</div>
+</body>
+</html>
+--------------------------
+

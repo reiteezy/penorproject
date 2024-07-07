@@ -1,0 +1,268 @@
+body {
+  font-family: 'Quicksand', sans-serif;
+  background-image: url(../images/bg-img.png);
+}
+
+.auth-box {
+  position: relative;
+  z-index: 1;
+  max-width: 400px;
+  width: 100%;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+  backdrop-filter: blur(10px); /* Blurred background */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.form-primary {
+  margin-bottom: 20px;
+}
+.form-primary label {
+  font-size: 14px;
+  color: #868686;
+}
+.form-primary input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+p .text-muted, .txt-primary {
+  color: #868686 !important;
+}
+
+.btn-transparent {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    margin-right: 10px;
+}
+.modal-header {
+  background: #154360;
+  color: #ccc
+}
+.modal-body input {
+    font-weight: bold !important;
+}
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #084172;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #031b30;
+  }
+  /* card heading */
+  
+  .nav-tabs .nav-link {
+  color: #333;
+  }
+
+  .second-navbar .nav-link {
+    transition: all 0.1s ease;
+    /* font-weight: bold; */
+    color: #909090;
+    /* padding: 8px 0 0 8px; */
+    border-bottom: 2px solid transparent;
+  }
+  
+  .second-navbar .nav-link:focus,
+  .second-navbar .nav-link:hover,
+  .second-navbar .nav-link.active {
+    /* font-weight: bold; */
+    border-color: rgb(230, 100, 30);
+    color: #333;
+  }
+
+  .main-body .page-wrapper {
+    padding: 0;
+}
+
+
+  .card {
+    /* -webkit-box-shadow: none; */
+    /* box-shadow: none; */
+    /* border: none;
+    margin-bottom: 0; */
+}
+
+.user-card
+{
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.card .card-header {
+  padding: 1.9rem 1.25rem 0 1.25rem;
+}
+
+
+/* Floating Button Style */
+.floating-button {
+  position: fixed;
+  bottom: 20px; /* Adjust this value to position the button vertically */
+  right: 20px;  /* Adjust this value to position the button horizontally */
+  z-index: 1000; /* Ensure it appears above other elements */
+}
+
+.floating-button .btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;  /* Adjust button size */
+  height: 60px; /* Adjust button size */
+  border-radius: 50%;
+  background-color: #007bff; /* Button color */
+  color: #fff; /* Icon color */
+  font-size: 24px; /* Icon size */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow effect */
+  transition: background-color 0.3s;
+}
+
+.floating-button .btn:hover {
+  background-color: #0056b3; /* Darken the button color on hover */
+}
+
+.floating-button .btn i {
+  pointer-events: none; /* Ensure the icon doesn't intercept clicks */
+}
+
+.sm-label {
+  font-size: 13px; /* Adjust font size as needed */
+  text-transform: uppercase; /* Capitalize the text */
+  /* font-weight: bold; Optional: Make the text bold */
+  color: #95604c;
+}
+
+.header-clock {
+  font-size: 15px;
+  color: #333; /* Adjust color based on your navbar theme */
+}
+
+.digital-clock {
+  border-radius: 5px;
+  text-align: center;
+}
+.user-digital-clock {
+  border-radius: 5px;
+  text-align: right;
+  margin-top: 82px;
+  padding: 5px 10px 5px 5px;
+  background: #00000008;
+}
+
+.nav-left .nav-item {
+  padding: 0;
+  display: inline-block;
+}
+
+.nav-left .nav-item a {
+  text-decoration: none;
+  padding: 8px 12px; /* Padding inside each link */
+  display: inline-block;
+  color: #333; /* Text color */
+  height: 78px;
+  /* font-weight: bold; */
+}
+
+.nav-left .nav-item a:hover {
+  background-color: #3c8dbc; /* Blue background color on hover */
+  color: #fff; /* Text color on hover */
+}
+
+.nav-left .nav-item a.active {
+  background-color: #3c8dbc; /* Blue background color on hover */
+  color: #fff; /* Text color on hover */
+}
+
+.header-navbar .navbar-wrapper .navbar-container .nav-left li{
+  padding: 0;
+}
+
+.table-container {
+  position: relative;
+}
+
+.dropdown-item {
+  background: #fff !important;
+}
+
+.dropdown-item:hover {
+  background: #ccc !important;
+}
+/* .loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+} */
+
+.highlight-row {
+  background-color: rgba(253, 215, 195, 0.522);
+  transition: background-color 5s ease;
+}
+
+.report-loader {
+  width: 100%;
+  height: 4px;
+  background: #f3f3f3;
+  overflow: hidden;
+  position: relative;
+  display: none;
+  margin-top: 10px;
+}
+
+.report-loader::before {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  background: #3498db;
+  animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+  0% {
+      transform: translateX(-100%);
+  }
+
+  100% {
+      transform: translateX(100%);
+  }
+}
+
+/* HTML: <div class="loader"></div> */
+.generate-loader {
+  display: none; /* Hide initially */
+  width: 30px;
+  aspect-ratio: 1;
+  --c: no-repeat linear-gradient(#ff6f00 0 0);
+  background: 
+      var(--c) 0%   50%,
+      var(--c) 50%  50%,
+      var(--c) 100% 50%;
+  background-size: 20% 100%;
+  animation: l1 1s infinite linear;
+}
+
+@keyframes l1 {
+  0%  { background-size: 20% 100%, 20% 100%, 20% 100%; }
+  33% { background-size: 20% 10%, 20% 100%, 20% 100%; }
+  50% { background-size: 20% 100%, 20% 10%, 20% 100%; }
+  66% { background-size: 20% 100%, 20% 100%, 20% 10%; }
+  100% { background-size: 20% 100%, 20% 100%, 20% 100%; }
+}
